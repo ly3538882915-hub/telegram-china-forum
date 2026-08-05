@@ -1,3 +1,4 @@
+@import url("brand.css");
 /* Interaction, readability, and responsive refinements. */
 :root{--surface:#fff;--shadow:0 12px 32px rgba(22,48,72,.08)}
 html{scroll-padding-top:88px}a:focus-visible,button:focus-visible{outline:3px solid rgba(41,150,220,.35);outline-offset:3px;border-radius:6px}.button,.quick-links a,.notice-card,.leader-card{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}.quick-links a:hover{background:#f8fbfd}.notice-card:hover,.leader-card:hover{border-color:#c9e2f2;box-shadow:var(--shadow);transform:translateY(-2px)}.button:hover{transform:translateY(-1px)}
