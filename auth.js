@@ -66,7 +66,8 @@
       const { error } = await client.auth.signInWithPassword({ email: form.get('email'), password: form.get('password') });
       setBusy(button, false, '登录');
       if (error) return text('[data-auth-message]', error.message === 'Invalid login credentials' ? '邮箱或密码不正确。' : error.message, 'error');
-      window.location.assign('profile.html');
+      const next = new URLSearchParams(window.location.search).get('next');
+      window.location.assign(next ? `${next}.html` : 'profile.html');
     });
 
     document.querySelector('[data-signup-form]').addEventListener('submit', async (event) => {
@@ -117,7 +118,14 @@
     });
   };
 
-  client.auth.getUser().then(({ data }) => updateNav(data.user));
+  client.auth.getUser().then(({ data }) => {
+    updateNav(data.user);
+    const filename = location.pathname.split('/').pop() || 'index.html';
+    if (!data.user && filename !== 'auth.html') {
+      const page = filename.replace('.html', '') || 'index';
+      location.replace(`auth.html?next=${encodeURIComponent(page)}`);
+    }
+  });
   client.auth.onAuthStateChange((_event, session) => updateNav(session?.user || null));
   document.addEventListener('DOMContentLoaded', () => { initAuthPage(); initAccountPage(); });
 })();
