@@ -13,8 +13,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       headers: { authorization: `Bearer ${session.access_token}`, 'cache-control': 'no-cache' }
     });
     if (!response.ok) {
+      const raw = await response.text();
       let error = {};
-      try { error = await response.json(); } catch { /* response is not JSON */ }
+      try { error = JSON.parse(raw); } catch { /* Cloudflare or an upstream returned plain text */ }
       const labels = {
         missing_login_session: '登录状态缺失，请退出后重新登录。',
         invalid_or_expired_session: '登录已过期，请退出后重新登录。',
@@ -23,7 +24,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         profile_query_failed: '数据库查询失败。',
         server_request_failed: '后台函数运行失败，请查看 Cloudflare 实时日志。'
       };
-      showError(`${labels[error.error] || '无法读取管理数据。'}（状态 ${response.status}；${error.error || 'unknown_error'}）`);
+      const detail = error.error || (raw.trim().slice(0, 120) || 'unknown_error');
+      showError(`${labels[error.error] || '无法读取管理数据。'}（状态 ${response.status}；${detail}）`);
       return;
     }
     const users = await response.json();
