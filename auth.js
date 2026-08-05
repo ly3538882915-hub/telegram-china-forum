@@ -121,7 +121,7 @@
   client.auth.getUser().then(({ data }) => {
     updateNav(data.user);
     const filename = location.pathname.split('/').pop() || 'index.html';
-    if (!data.user && filename !== 'auth.html') {
+    if (!data.user && filename !== 'auth.html' && filename !== 'auth') {
       const page = filename.replace('.html', '') || 'index';
       location.replace(`auth.html?next=${encodeURIComponent(page)}`);
     }
