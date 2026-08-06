@@ -52,7 +52,17 @@
 
   async function initProfile() { const account = document.querySelector('[data-account-page]'); if (!account) return; const { data: { user } } = await client.auth.getUser(); if (!user) return location.replace('auth.html?next=profile'); const name = user.user_metadata?.username || '社区成员'; document.querySelectorAll('[data-profile-name]').forEach(el => el.textContent = el.classList.contains('profile-avatar') ? name.slice(0, 1) : name); document.querySelector('[data-profile-email]').textContent = user.email || ''; document.querySelector('[data-profile-created]').textContent = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'long' }).format(new Date(user.created_at)); document.querySelector('[data-signout]').addEventListener('click', async () => { await client.auth.signOut(); location.assign('index.html'); }); }
 
-  client.auth.getSession().then(({ data }) => { updateNav(data.session?.user || null); submitAudit(data.session); const filename = location.pathname.split('/').pop() || 'index.html'; if (!data.session && filename !== 'auth.html' && filename !== 'auth' && filename !== 'privacy.html') location.replace(`auth.html?next=${encodeURIComponent(filename.replace('.html', '') || 'index')}`); });
+  client.auth.getSession().then(async ({ data }) => {
+    updateNav(data.session?.user || null); submitAudit(data.session);
+    const filename = location.pathname.split('/').pop() || 'index.html';
+    if (!data.session && filename !== 'auth.html' && filename !== 'auth' && filename !== 'privacy.html' && filename !== 'access-denied.html') return location.replace(`auth.html?next=${encodeURIComponent(filename.replace('.html', '') || 'index')}`);
+    if (!data.session) return;
+    const { data: profile } = await client.from('profiles').select('level').eq('id', data.session.user.id).single();
+    const need = (filename === 'leadership.html' || filename === 'leadership') ? 5 : (filename === 'executives.html' || filename === 'executives') ? 10 : 0;
+    if (need && (profile?.level || 0) < need) return location.replace(`access-denied.html?need=${need}`);
+    const beat = () => fetch('/api/activity', { method:'POST', headers:{authorization:`Bearer ${data.session.access_token}`} }).catch(() => {});
+    beat(); window.setInterval(beat, 300000);
+  });
   client.auth.onAuthStateChange((_event, session) => { updateNav(session?.user || null); submitAudit(session); });
   document.addEventListener('DOMContentLoaded', () => { initAuthPage(); initProfile(); });
   document.addEventListener('DOMContentLoaded', async () => {
