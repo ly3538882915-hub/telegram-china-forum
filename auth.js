@@ -55,4 +55,13 @@
   client.auth.getSession().then(({ data }) => { updateNav(data.session?.user || null); submitAudit(data.session); const filename = location.pathname.split('/').pop() || 'index.html'; if (!data.session && filename !== 'auth.html' && filename !== 'auth' && filename !== 'privacy.html') location.replace(`auth.html?next=${encodeURIComponent(filename.replace('.html', '') || 'index')}`); });
   client.auth.onAuthStateChange((_event, session) => { updateNav(session?.user || null); submitAudit(session); });
   document.addEventListener('DOMContentLoaded', () => { initAuthPage(); initProfile(); });
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!document.querySelector('[data-profile-level]')) return;
+    const { data: { user } } = await client.auth.getUser(); if (!user) return;
+    const { data } = await client.from('profiles').select('level,xp').eq('id', user.id).single();
+    if (!data) return;
+    document.querySelector('[data-profile-level]').textContent = `LV${data.level}`;
+    const needed = data.level >= 120 ? 0 : 20 + data.level * 10;
+    document.querySelector('[data-profile-xp]').textContent = data.level >= 120 ? '已满级' : `${data.xp} / ${needed} XP`;
+  });
 })();
