@@ -11,7 +11,7 @@
   function render(posts) {
     list.innerHTML = posts.length ? posts.map(post => `<article class="post"><div class="post-top"><div><div class="post-author">${post.official ? '<span class="official">官方公告</span> ' : ''}${esc(post.profiles?.username || '社区成员')}</div><div class="post-meta">${new Date(post.created_at).toLocaleString('zh-CN')}</div></div>${user && (user.id === post.author_id || canModerate) ? `<button class="delete-post" data-id="${post.id}">删除</button>` : ''}</div><div class="post-body">${esc(post.body)}</div><div class="post-media">${(post.post_media || []).map(media => media.mime_type.startsWith('image/') ? `<img src="${mediaUrl(media.path)}" alt="用户上传图片">` : `<audio controls src="${mediaUrl(media.path)}"></audio>`).join('')}</div></article>`).join('') : '<p class="forum-note">暂无内容，来发布第一条吧。</p>';
   }
-  async function load() { const { data, error } = await db.from('posts').select('*,profiles(username),post_media(*)').order('created_at', { ascending: false }); if (error) list.textContent = `加载失败：${error.message}`; else render(data); }
+  async function load() { const { data, error } = await db.from('posts').select('*,profiles!posts_author_id_fkey(username),post_media(*)').order('created_at', { ascending: false }); if (error) list.textContent = `加载失败：${error.message}`; else render(data); }
   async function init() {
     ({ data: { user } } = await db.auth.getUser());
     if (user) {
