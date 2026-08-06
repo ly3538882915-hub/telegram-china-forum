@@ -60,6 +60,7 @@
     const { data: profile } = await client.from('profiles').select('level').eq('id', data.session.user.id).single();
     const need = (filename === 'leadership.html' || filename === 'leadership') ? 5 : (filename === 'executives.html' || filename === 'executives') ? 10 : 0;
     if (need && (profile?.level || 0) < need) return location.replace(`access-denied.html?need=${need}`);
+    document.body.classList.remove('level-gated');
     const beat = () => fetch('/api/activity', { method:'POST', headers:{authorization:`Bearer ${data.session.access_token}`} }).catch(() => {});
     beat(); window.setInterval(beat, 300000);
   });
