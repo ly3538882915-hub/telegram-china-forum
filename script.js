@@ -1,6 +1,11 @@
 const menu = document.querySelector('.menu-button');
 const nav = document.querySelector('nav');
 
+if (document.querySelector('.social-shell')) {
+  const premium = document.createElement('link');
+  premium.rel = 'stylesheet'; premium.href = 'social-premium.css'; document.head.appendChild(premium);
+}
+
 if (menu && nav) {
   nav.id ||= 'primary-navigation';
   menu.setAttribute('aria-controls', nav.id);
