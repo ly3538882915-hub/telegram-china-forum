@@ -22,7 +22,7 @@ create table if not exists public.chat_messages (
 );
 create or replace view public.public_profile_cards as select id,username,level,created_at from public.profiles;
 grant select on public.public_profile_cards to authenticated;
-grant select,insert on public.friend_requests to authenticated;
+grant select,insert,update on public.friend_requests to authenticated;
 grant select,insert on public.conversations,public.conversation_members,public.chat_messages to authenticated;
 alter table public.friend_requests enable row level security; alter table public.conversations enable row level security; alter table public.conversation_members enable row level security; alter table public.chat_messages enable row level security;
 create or replace function public.is_conversation_member(conversation uuid) returns boolean language sql stable security definer set search_path=public as $$ select exists(select 1 from public.conversation_members where conversation_id=conversation and user_id=auth.uid()) $$;

@@ -1,0 +1,1 @@
+.profile-actions{display:grid;grid-template-columns:minmax(160px,1fr) minmax(140px,1fr);gap:12px;margin-top:22px}.profile-actions .auth-submit{display:flex;align-items:center;justify-content:center;margin:0;text-decoration:none}.profile-actions .signout{margin:0}@media(max-width:480px){.profile-actions{grid-template-columns:1fr}.profile-actions .auth-submit{min-height:48px}}
