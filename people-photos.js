@@ -5,7 +5,7 @@
   };
   const photoPath = name => `people-images/${portraits[name]}`;
   const addFullPhoto = (card, name) => {
-    if (!portraits[name] || card.querySelector('.person-photo-full')) return;
+    if (!portraits[name] || card.querySelector('.person-photo-full, figure img')) return;
     const figure = document.createElement('figure'); figure.className = 'person-photo-full';
     figure.innerHTML = `<img src="${photoPath(name)}" alt="${name}公示照片" loading="lazy" onload="this.parentElement.classList.add('ready')" onerror="this.parentElement.remove()"><figcaption>${name} · 公示照片</figcaption>`;
     const details = card.querySelector('dl,ul'); details ? card.insertBefore(figure, details) : card.appendChild(figure);
