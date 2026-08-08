@@ -6,6 +6,13 @@ if (document.querySelector('.social-shell')) {
   premium.rel = 'stylesheet'; premium.href = 'social-premium.css'; document.head.appendChild(premium);
 }
 
+if (document.querySelector('.people-page')) {
+  const peopleStyle = document.createElement('link');
+  peopleStyle.rel = 'stylesheet'; peopleStyle.href = 'people-photos.css'; document.head.appendChild(peopleStyle);
+  const peopleScript = document.createElement('script');
+  peopleScript.src = 'people-photos.js'; document.head.appendChild(peopleScript);
+}
+
 if (document.querySelector('.quick-links') && !document.querySelector('[data-poll-entry]')) {
   const homePollStyle = document.createElement('link');
   homePollStyle.rel = 'stylesheet'; homePollStyle.href = 'home-poll.css'; document.head.appendChild(homePollStyle);
