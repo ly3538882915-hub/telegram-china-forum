@@ -6,6 +6,16 @@ if (document.querySelector('.social-shell')) {
   premium.rel = 'stylesheet'; premium.href = 'social-premium.css'; document.head.appendChild(premium);
 }
 
+if (document.querySelector('.quick-links') && !document.querySelector('[data-poll-entry]')) {
+  const homePollStyle = document.createElement('link');
+  homePollStyle.rel = 'stylesheet'; homePollStyle.href = 'home-poll.css'; document.head.appendChild(homePollStyle);
+  const link = document.createElement('a');
+  link.href = 'poll.html'; link.dataset.pollEntry = 'true';
+  link.innerHTML = '<span class="quick-icon blue">◉</span><span><strong>社区投票</strong><small>参与当前公开讨论</small></span><b>→</b>';
+  document.querySelector('.quick-links').classList.add('has-poll');
+  document.querySelector('.quick-links').appendChild(link);
+}
+
 if (menu && nav) {
   nav.id ||= 'primary-navigation';
   menu.setAttribute('aria-controls', nav.id);
