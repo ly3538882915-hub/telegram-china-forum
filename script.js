@@ -23,6 +23,13 @@ if (document.querySelector('.quick-links') && !document.querySelector('[data-pol
   document.querySelector('.quick-links').appendChild(link);
 }
 
+if (document.querySelector('.quick-links') && !document.querySelector('[data-wiki-entry]')) {
+  const link = document.createElement('a');
+  link.href = 'wiki.html'; link.dataset.wikiEntry = 'true';
+  link.innerHTML = '<span class="quick-icon blue">百</span><span><strong>电报中国百科</strong><small>浏览词条、提交修改建议</small></span><b>→</b>';
+  document.querySelector('.quick-links').appendChild(link);
+}
+
 if (menu && nav) {
   nav.id ||= 'primary-navigation';
   menu.setAttribute('aria-controls', nav.id);
