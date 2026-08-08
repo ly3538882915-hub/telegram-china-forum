@@ -1,7 +1,7 @@
 (() => {
   const portraits = {
     '吴晨':'wu-chen.jpg', '李星月':'li-xingyue.jpg', '康佑伟':'kang-youwei.jpg',
-    '陈志强':'chen-zhiqiang.jpg', '鑫鑫然':'xin-xinran.jpg', '郭峻雄':'guo-junxiong.jpg'
+    '陈志强':'chen-zhiqiang.jpg', '鑫鑫然':'xin-xinran.png', '郭峻雄':'guo-junxiong.jpg'
   };
   const photoPath = name => `people-images/${portraits[name]}`;
   const addFullPhoto = (card, name) => {
