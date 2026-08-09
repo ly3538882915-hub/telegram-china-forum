@@ -1,59 +1,7 @@
-const menu = document.querySelector('.menu-button');
-const nav = document.querySelector('nav');
-
-if (document.querySelector('.social-shell')) {
-  const premium = document.createElement('link');
-  premium.rel = 'stylesheet'; premium.href = 'social-premium.css'; document.head.appendChild(premium);
-}
-
-if (document.querySelector('.people-page')) {
-  const peopleStyle = document.createElement('link');
-  peopleStyle.rel = 'stylesheet'; peopleStyle.href = 'people-photos.css'; document.head.appendChild(peopleStyle);
-  const peopleScript = document.createElement('script');
-  peopleScript.src = 'people-photos.js'; document.head.appendChild(peopleScript);
-}
-
-if (document.querySelector('.quick-links') && !document.querySelector('[data-poll-entry]')) {
-  const homePollStyle = document.createElement('link');
-  homePollStyle.rel = 'stylesheet'; homePollStyle.href = 'home-poll.css'; document.head.appendChild(homePollStyle);
-  const link = document.createElement('a');
-  link.href = 'poll.html'; link.dataset.pollEntry = 'true';
-  link.innerHTML = '<span class="quick-icon blue">◉</span><span><strong>社区投票</strong><small>参与当前公开讨论</small></span><b>→</b>';
-  document.querySelector('.quick-links').classList.add('has-poll');
-  document.querySelector('.quick-links').appendChild(link);
-}
-
-if (document.querySelector('.quick-links') && !document.querySelector('[data-wiki-entry]')) {
-  const link = document.createElement('a');
-  link.href = 'wiki.html'; link.dataset.wikiEntry = 'true';
-  link.innerHTML = '<span class="quick-icon blue">百</span><span><strong>电报中国百科</strong><small>浏览词条、提交修改建议</small></span><b>→</b>';
-  document.querySelector('.quick-links').appendChild(link);
-}
-
-if (menu && nav) {
-  nav.id ||= 'primary-navigation';
-  menu.setAttribute('aria-controls', nav.id);
-  menu.setAttribute('aria-expanded', 'false');
-
-  const closeMenu = () => {
-    nav.classList.remove('is-open');
-    menu.setAttribute('aria-expanded', 'false');
-  };
-
-  menu.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('is-open');
-    menu.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  nav.addEventListener('click', (event) => {
-    if (event.target.closest('a')) closeMenu();
-  });
-
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeMenu();
-  });
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 720) closeMenu();
-  });
-}
+const menu=document.querySelector('.menu-button'),nav=document.querySelector('nav');const manifest=document.createElement('link');manifest.rel='manifest';manifest.href='manifest.webmanifest';document.head.appendChild(manifest);
+if(document.querySelector('.social-shell')){const l=document.createElement('link');l.rel='stylesheet';l.href='social-premium.css';document.head.appendChild(l)}
+if(document.querySelector('.people-page')){const l=document.createElement('link');l.rel='stylesheet';l.href='people-photos.css';document.head.appendChild(l);const s=document.createElement('script');s.src='people-photos.js';document.head.appendChild(s)}
+if(document.querySelector('.quick-links')&&!document.querySelector('[data-poll-entry]')){const l=document.createElement('a');l.href='poll.html';l.dataset.pollEntry='true';l.innerHTML='<span class="quick-icon blue">投</span><span><strong>社区投票</strong><small>参与当前公开讨论</small></span><b>→</b>';document.querySelector('.quick-links').appendChild(l)}
+if(document.querySelector('.quick-links')&&!document.querySelector('[data-wiki-entry]')){const l=document.createElement('a');l.href='wiki.html';l.dataset.wikiEntry='true';l.innerHTML='<span class="quick-icon blue">百</span><span><strong>电报中国百科</strong><small>浏览词条、提交修改建议</small></span><b>→</b>';document.querySelector('.quick-links').appendChild(l)}
+if(menu&&nav){nav.id||='primary-navigation';menu.setAttribute('aria-controls',nav.id);menu.setAttribute('aria-expanded','false');const close=()=>{nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false')};menu.addEventListener('click',()=>{const open=nav.classList.toggle('is-open');menu.setAttribute('aria-expanded',String(open))});nav.addEventListener('click',e=>{if(e.target.closest('a'))close()});window.addEventListener('keydown',e=>{if(e.key==='Escape')close()});window.addEventListener('resize',()=>{if(innerWidth>720)close()})}
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
