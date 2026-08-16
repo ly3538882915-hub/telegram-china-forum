@@ -2,6 +2,7 @@ const menu=document.querySelector('.menu-button'),nav=document.querySelector('na
 const manifest=document.createElement('link');manifest.rel='manifest';manifest.href='manifest.webmanifest';document.head.appendChild(manifest);
 if(document.querySelector('.social-shell')){const link=document.createElement('link');link.rel='stylesheet';link.href='social-premium.css';document.head.appendChild(link)}
 if(document.querySelector('.people-page')){const link=document.createElement('link');link.rel='stylesheet';link.href='people-photos.css';document.head.appendChild(link);const source=document.createElement('script');source.src='people-photos.js';document.head.appendChild(source)}
+if(document.querySelector('[data-entry-view]')){const style=document.createElement('link');style.rel='stylesheet';style.href='wiki-polish.css';document.head.appendChild(style);const source=document.createElement('script');source.src='wiki-polish.js';document.head.appendChild(source)}
 if(document.querySelector('.quick-links')){
  const links=[
   ['poll.html','data-poll-entry','投','社区投票','参与当前公开讨论','blue'],
