@@ -2,7 +2,10 @@ const bootWikiPolish = () => {
   const article = document.querySelector('[data-entry-view]');
   const toc = document.querySelector('.wiki-toc');
   if (!article) return;
-  const dateLine = /^\d{4}\s*年(?:\s*\d{1,2}\s*月)?(?:\s*(?:[-—–至到])\s*\d{4}\s*年(?:\s*\d{1,2}\s*月)?)?$/;
+  // 支持“2026年7月-2026年7月31日”这类带具体日期的履历区间。
+  // 旧规则只识别到“月”，会把后面的正文错误归入上一条时间线。
+  const datePart = '\\d{4}\\s*年(?:\\s*\\d{1,2}\\s*月(?:\\s*\\d{1,2}\\s*日)?)?';
+  const dateLine = new RegExp(`^${datePart}(?:\\s*(?:[-—–至到])\\s*${datePart})?$`);
   const headings = new Set(['任职经历时间线', '人物履历', '现任职务', '现任职务包括', '工作分工', '说明']);
   let finished = false;
   const polish = () => {
@@ -15,7 +18,7 @@ const bootWikiPolish = () => {
       const normalized = raw.replace(/^#{1,3}\s*/, '').replace(/：$/, '');
       const isHeading = headings.has(normalized) || /^#{1,2}\s+/.test(raw);
       const isDate = dateLine.test(normalized) || /^###\s+/.test(raw);
-      const dateWithText = raw.match(/^(\d{4}\s*年(?:\s*\d{1,2}\s*月)?(?:\s*(?:[-—–至到])\s*\d{4}\s*年(?:\s*\d{1,2}\s*月)?)?)\s+(.+)$/);
+      const dateWithText = raw.match(new RegExp(`^(${datePart}(?:\\s*(?:[-—–至到])\\s*${datePart})?)\\s+(.+)$`));
       if (isHeading) {
         const h2 = document.createElement('h2'); h2.className = 'wiki-section-title'; h2.id = `wiki-polish-${++sectionNo}`; h2.textContent = normalized;
         node.replaceWith(h2);
